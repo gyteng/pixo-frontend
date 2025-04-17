@@ -5,6 +5,7 @@
   
   let redeemCode = '';
   let message = '';
+  let loading = false;
 
   function autofocus(node) {
     node.focus();
@@ -14,6 +15,13 @@
     window.location = 'https://github.com/gyteng/pixo-frontend';
   }
 
+  function handleKeyDownToGithub(event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      toGithub();
+    }
+  }
+  
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
       handleRedeem();
@@ -27,6 +35,7 @@
     }
     
     message = `正在处理兑换码: ${redeemCode}`;
+    loading = true;
     try {
       const params = new URLSearchParams();
       params.append('code', redeemCode);
@@ -45,11 +54,18 @@
       }
     } catch (error) {
       message = `兑换失败: ${error}`;
+    } finally {
+      loading = false;
     }
   }
 </script>
 
-<div class="github-icon" on:click={toGithub}>
+<div class="github-icon"
+  on:click={toGithub}
+  on:keydown={handleKeyDownToGithub}
+  tabindex="0"
+  role="button"
+  aria-label="GitHub Repository">
   <Icon icon="octicon:mark-github-16" width="16" height="16" />
 </div>
 <div class="container">
@@ -58,13 +74,18 @@
     <div class="input-group">
       <input 
         type="text" 
+        tabindex="0"
         bind:value={redeemCode}
         use:autofocus
         on:keypress={handleKeyPress}
         placeholder="请输入兑换码"
       />
       <button on:click={handleRedeem}>
-        <Icon color="#333" icon="tabler:chevron-right" width="40" height="40" />
+        {#if loading}
+          <Icon color="#333" icon="svg-spinners:3-dots-fade" width="40" height="40" />
+        {:else}
+          <Icon color="#333" icon="tabler:chevron-right" width="40" height="40" />
+        {/if}
       </button>
     </div>
   </div>
