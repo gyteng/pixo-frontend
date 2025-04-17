@@ -196,17 +196,17 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     max-width: 100%;
+    min-height: 60vh;
     max-height: 80vh;
   }
 
-  /* 响应式样式 */
   @media (max-width: 768px) {
     .image-container {
       min-height: 80vh;
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-height: 768px) {
     .image-container {
       min-height: 80vh;
     }
@@ -216,17 +216,8 @@
     width: 100%;
     max-width: 100%;
     height: auto;
-    /* max-height: 400px; */
     object-fit: contain;
-    /* border-radius: 4px; */
     display: block;
-  }
-  
-  /* 添加响应式样式 */
-  @media (max-width: 768px) {
-    .images-container {
-      flex-direction: column;
-    }
   }
 
   .loading {
@@ -248,27 +239,6 @@
     justify-content: center;
     align-items: center;
     border-radius: 20px;
-  }
-
-  .loading-spinner {
-    display: inline-block;
-    position: relative;
-    width: 80px;
-    height: 80px;
-    margin: 20px auto;
-  }
-  
-  .loading-spinner:after {
-    content: " ";
-    display: block;
-    position: absolute;
-    width: 64px;
-    height: 64px;
-    margin: 8px;
-    border-radius: 50%;
-    border: 6px solid #4a90e2;
-    border-color: #4a90e2 transparent #4a90e2 transparent;
-    animation: spin 1.2s linear infinite;
   }
   
   @keyframes spin {
