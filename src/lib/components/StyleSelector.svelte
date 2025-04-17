@@ -80,15 +80,11 @@
   
   onMount(() => {
     fetchStyles();
-    
-    // 添加浏览器环境检查
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-      // 添加全局点击事件监听器
       document.addEventListener('click', handleClickOutside);
     }
   });
   
-  // 组件销毁时移除事件监听器
   onDestroy(() => {
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {
       document.removeEventListener('click', handleClickOutside);
@@ -96,7 +92,7 @@
   });
 </script>
 
-<div class="style-selector" bind:this={styleSelectorRef}>
+<div class="style-selector" class:style-selector-border={expanded} bind:this={styleSelectorRef}>
   <div
     class="style-header"
     on:click={toggleExpand}
@@ -151,6 +147,10 @@
     overflow: hidden;
     /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
   }
+
+  .style-selector-border {
+    border: 1px solid #ddd;
+  }
   
   .style-header {
     padding: 15px;
@@ -160,9 +160,6 @@
     cursor: pointer;
     user-select: none;
     transition: background-color 0.2s;
-  }
-  
-  .style-header:hover {
     background-color: #f8f8f8;
   }
   

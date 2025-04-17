@@ -10,6 +10,10 @@
     node.focus();
   }
 
+  function toGithub() {
+    window.location = 'https://github.com/gyteng/pixo-frontend';
+  }
+
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
       handleRedeem();
@@ -45,6 +49,9 @@
   }
 </script>
 
+<div class="github-icon" on:click={toGithub}>
+  <Icon icon="octicon:mark-github-16" width="16" height="16" />
+</div>
 <div class="container">
   <div class="title">Pixo</div>
   <div class="redeem-container">
@@ -66,6 +73,14 @@
 <style>
   :global(body) {
     margin: 0;
+    position: relative;
+  }
+
+  .github-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
   }
 
   .container {
