@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-  
+  import Icon from '@iconify/svelte';
+
   export let uploading = false;
   export let previewUrl = null;
   export let code = '';
@@ -183,6 +184,7 @@
     >
       <div class="file-input-wrapper">
         <label for="image-upload" class="file-label">
+          <Icon icon="lucide:plus" width="48" height="48" />
           选择、拖拽或粘贴图片文件
           <input 
             type="file" 
@@ -218,9 +220,18 @@
   }
   
   .file-label {
-    padding: 10px 15px;
-    background-color: #4a90e2;
-    color: white;
+    padding: 20px 25px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 4px dashed #ccc;
+    border-radius: 8px;
+  }
+
+  .file-label:hover {
+    background-color: #f0f0f0;
   }
   
   input[type="file"] {
@@ -237,7 +248,6 @@
     width: 100%;
     max-width: 100%;
     height: auto;
-    /* max-height: 400px; */
     object-fit: contain;
     display: block;
   }

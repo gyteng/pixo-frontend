@@ -148,7 +148,7 @@
 
     {#if uploading || (previewUrl && codeStatus !== 'finished') || codeStatus === 'uploaded'}
       <div class="loading overlay">
-        <div class="loading-spinner"></div>
+        <Icon icon="svg-spinners:180-ring-with-bg" width="48" height="48" />
       </div>
     {/if}
   </div>
@@ -196,7 +196,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     max-width: 100%;
-    /* min-height: 200px; */
+    max-height: 80vh;
   }
 
   /* 响应式样式 */
