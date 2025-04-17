@@ -216,7 +216,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* min-height: 30vh; */
   }
   
   .file-label {

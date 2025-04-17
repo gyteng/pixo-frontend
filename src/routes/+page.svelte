@@ -38,7 +38,7 @@
     loading = true;
     try {
       const params = new URLSearchParams();
-      params.append('code', redeemCode);
+      params.append('code', redeemCode.trim());
       const response = await fetch(`/api/code/status?${params}`, {
         method: 'GET',
         headers: {
@@ -48,7 +48,7 @@
       const result = await response.json();
       if (result.success) {
         message = '兑换成功！';
-        goto(`/img/${redeemCode}`);
+        goto(`/img/${redeemCode.trim()}`);
       } else {
         message = `兑换失败: ${result.error}`;
       }
