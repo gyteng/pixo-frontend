@@ -125,6 +125,14 @@
             <div 
               class="style-item {selectedStyle === style.id ? 'selected' : ''}"
               on:click={() => selectStyle(style.id)}
+              on:keydown={(e) => {
+                if (e.key === 'Enter') {
+                  selectStyle(style.id);
+                }
+              }}
+              aria-label="选择风格 {style.name}"
+              tabindex="0"
+              role="button"
               class:disabled={uploading || loading}
             >
               <div class="style-name">{style.name}</div>
