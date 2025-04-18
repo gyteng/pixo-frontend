@@ -29,15 +29,23 @@
 <div class="history-container">
   <div class="history-grid">
     {#each placeholders as _, index}
-      <div class="history-item {!historyItems[index] ? 'empty-item' : ''}">
+      <div class="history-item {!historyItems[index] ? 'empty-item' : ''}"
+        on:click={() => {
+          window.location.href = `/img/${historyItems[index]}`;
+        }}
+        on:keydown={(e) => {
+          if (e.key === 'Enter') {
+            window.location.href = `/img/${historyItems[index]}`;
+          }
+        }}
+        aria-label="点击查看历史记录图片"
+        tabindex="0"
+        role="button">
         {#if historyItems[index]}
           <img 
             src="/api/image?usage=ai_generated&code={historyItems[index]}" 
             alt="历史记录图片 {index + 1}" 
             on:error={handleImageError}
-            on:click={() => {
-              window.location.href = `/img/${historyItems[index]}`;
-            }}
           />
         {/if}
       </div>

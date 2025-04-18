@@ -111,6 +111,9 @@
       return;
     }
     const history = JSON.parse(localStorage.getItem('history_v0')) || [];
+    if (history.includes(code)) {
+      history.splice(history.indexOf(code), 1);
+    }
     if (history.length >= 9) {
       history.pop();
     }
