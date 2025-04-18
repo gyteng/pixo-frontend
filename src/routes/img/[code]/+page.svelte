@@ -6,7 +6,6 @@
   import ImageUploader from '$lib/components/ImageUploader.svelte';
   import StyleSelector from '$lib/components/StyleSelector.svelte';
   
-  
   let previewUrl = null;
   let uploading = false;
   let uploadSuccess = false;

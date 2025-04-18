@@ -106,6 +106,18 @@
     }
   }
 
+  function addHistory(code) {
+    if (!localStorage) {
+      return;
+    }
+    const history = JSON.parse(localStorage.getItem('history_v0')) || [];
+    if (history.length >= 9) {
+      history.pop();
+    }
+    history.unshift(code);
+    localStorage.setItem('history_v0', JSON.stringify(history));
+  }
+
   function handlePaste(event) {
     const items = (event.clipboardData || window.clipboardData).items;
     for (let i = 0; i < items.length; i++) {
@@ -149,6 +161,7 @@
         const errorData = await response.json();
         throw new Error(errorData.message || '上传失败');
       }
+      addHistory(code);
       dispatch('uploadsuccess');
     } catch (error) {
       errorMessage = `上传失败: ${error.message}`;

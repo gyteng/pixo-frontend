@@ -2,6 +2,7 @@
   import Icon from '@iconify/svelte';
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
+  import History from '$lib/components/History.svelte';
   
   let redeemCode = '';
   let message = '';
@@ -107,6 +108,7 @@
       </button>
     </div>
   </div>
+  <History />
 </div>
 
 <style>
@@ -146,7 +148,7 @@
     border: 1px solid #ddd;
     border-radius: 20px;
     max-width: 500px;
-    margin: 0 0 40vh 0;
+    /* margin: 0 0 40vh 0; */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
@@ -162,6 +164,11 @@
     border: 0px;
     outline: none;
     border-radius: 4px 0 0 4px;
+    color: #666;
+  }
+
+  .input-group input::placeholder {
+    color: #999;
   }
   
   button {
