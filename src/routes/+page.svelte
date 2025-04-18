@@ -150,7 +150,7 @@
     border: 1px solid #ddd;
     border-radius: 20px;
     max-width: 500px;
-    /* margin: 0 0 40vh 0; */
+    margin: 0 0 30px 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
