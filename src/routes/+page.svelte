@@ -108,7 +108,9 @@
       </button>
     </div>
   </div>
-  <History />
+  <div class="history-container">
+    <History />
+  </div>
 </div>
 
 <style>
@@ -187,5 +189,9 @@
   
   button:hover {
     background-color: #EEE;
+  }
+
+  .history-container {
+    height: 280px;
   }
 </style>

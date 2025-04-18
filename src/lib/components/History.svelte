@@ -3,6 +3,7 @@
   
   let historyItems = [];
   const maxItems = 6;
+  const placeholders = Array(maxItems).fill(null);
   
   onMount(() => {
     try {
@@ -27,20 +28,20 @@
 
 <div class="history-container">
   <div class="history-grid">
-    {#if historyItems.length > 0}
-      {#each historyItems as item, index}
-        <div class="history-item">
+    {#each placeholders as _, index}
+      <div class="history-item {!historyItems[index] ? 'empty-item' : ''}">
+        {#if historyItems[index]}
           <img 
-            src="/api/image?usage=ai_generated&code={item}" 
+            src="/api/image?usage=ai_generated&code={historyItems[index]}" 
             alt="历史记录图片 {index + 1}" 
             on:error={handleImageError}
             on:click={() => {
-              window.location.href = `/img/${item}`;
+              window.location.href = `/img/${historyItems[index]}`;
             }}
           />
-        </div>
-      {/each}
-    {/if}
+        {/if}
+      </div>
+    {/each}
   </div>
 </div>
 
@@ -74,6 +75,11 @@
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
+  }
+
+  .history-item.empty-item {
+    box-shadow: none;
+    cursor: default;
   }
   
   .history-item img {
