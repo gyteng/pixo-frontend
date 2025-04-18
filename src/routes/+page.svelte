@@ -27,6 +27,20 @@
       handleRedeem();
     }
   }
+
+  async function getFreeCode() {
+    try {
+      const response = await fetch('/api/code/free', {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+      const result = await response.json();
+      if (result.success && !redeemCode) {
+        redeemCode = result.code;
+      }
+    } catch (error) {}
+  }
   
   async function handleRedeem() {
     if (!redeemCode) {
@@ -58,6 +72,10 @@
       loading = false;
     }
   }
+
+  onMount(() => {
+    getFreeCode();
+  });
 </script>
 
 <div class="github-icon"
