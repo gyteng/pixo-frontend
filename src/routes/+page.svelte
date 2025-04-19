@@ -117,6 +117,7 @@
   :global(body) {
     margin: 0;
     position: relative;
+    overflow-y: hidden;
   }
 
   .github-icon {
