@@ -7,9 +7,14 @@
   let redeemCode = '';
   let message = '';
   let loading = false;
+  let isMobile = false;
 
   function autofocus(node) {
-    node.focus();
+    if (!isMobile) {
+      setTimeout(() => {
+        node.focus();
+      }, 0);
+    }
   }
 
   function toGithub() {
@@ -76,6 +81,7 @@
 
   onMount(() => {
     getFreeCode();
+    isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   });
 </script>
 
