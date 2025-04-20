@@ -161,15 +161,17 @@
   .container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
+    overflow-y: hidden;
   }
   
   .code-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-height: 20vh;
   }
 
   .code-info .code {
