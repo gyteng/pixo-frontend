@@ -1,22 +1,15 @@
 <script>
   import { onMount } from 'svelte';
+  import { ls } from '$lib/localStorage'
   
   let historyItems = [];
   const maxItems = 6;
   const placeholders = Array(maxItems).fill(null);
+
+  const history = ls('history_v0', []);
   
   onMount(() => {
-    try {
-      const historyData = localStorage.getItem('history_v0');
-      if (historyData) {
-        const parsedData = JSON.parse(historyData);
-        historyItems = Array.isArray(parsedData) ? parsedData.slice(0, maxItems) : [];
-        console.log('历史记录:', historyItems);
-      }
-    } catch (error) {
-      console.error('读取历史记录失败:', error);
-      historyItems = [];
-    }
+    historyItems = $history;
   });
   
   function handleImageError(event) {

@@ -127,7 +127,7 @@
     </div>
     {#if codeStatus === 'loading'}
       <div></div>
-    {:else if codeStatus === 'created' || codeStatus === 'error'}
+    {:else if codeStatus === 'created' || codeStatus === 'error' || (codeStatus === 'uploaded' && previewUrl)}
       <ImageUploader 
         {uploading}
         bind:previewUrl={previewUrl}

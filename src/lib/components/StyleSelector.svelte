@@ -1,16 +1,17 @@
 <script>
   import { onMount, tick, onDestroy } from 'svelte';
   import { slide } from 'svelte/transition';
+  import { ls } from '$lib/localStorage'
   
-  export let selectedStyle = null;
   export let uploading = false;
-  
+  export let selectedStyle = 0;
   let styles = [];
   let loading = true;
   let error = null;
   let expanded = false;
   let selectedStyleName = '';
   let styleSelectorRef;
+  const lastSelectedStyle = ls('lastSelectedStyle', 1);
 
   async function fetchStyles() {
     loading = true;
@@ -25,7 +26,7 @@
       styles = data?.value || [];
       
       if (styles.length > 0 && !selectedStyle) {
-        selectedStyle = styles[0].id;
+        selectedStyle = $lastSelectedStyle;
         updateSelectedStyleName();
       }
       
@@ -47,6 +48,9 @@
   async function selectStyle(styleId) {
     if (!uploading && !loading) {
       selectedStyle = styleId;
+      lastSelectedStyle.update((prev) => {
+        return styleId;
+      });
       updateSelectedStyleName();
       
       await tick();

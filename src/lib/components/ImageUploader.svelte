@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import Icon from '@iconify/svelte';
+  import { ls } from '$lib/localStorage'
 
   let heic2any = null;
 
@@ -9,6 +10,7 @@
   export let code = '';
   export let selectedStyle = null;
   
+  const history = ls('history_v0', []);
   let selectedFile = null;
   let errorMessage = '';
   let isBrowser = false;
@@ -184,18 +186,10 @@
   }
 
   function addHistory(code) {
-    if (!localStorage) {
-      return;
-    }
-    const history = JSON.parse(localStorage.getItem('history_v0')) || [];
-    if (history.includes(code)) {
-      history.splice(history.indexOf(code), 1);
-    }
-    if (history.length >= 9) {
-      history.pop();
-    }
-    history.unshift(code);
-    localStorage.setItem('history_v0', JSON.stringify(history));
+    history.update(currentHistory => {
+      const filteredHistory = currentHistory.filter(item => item !== code);
+      return [code, ...filteredHistory].slice(0, 9);
+    });
   }
 
   async function handlePaste(event) {
