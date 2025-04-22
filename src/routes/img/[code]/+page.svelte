@@ -120,7 +120,15 @@
         <Icon color="#333" icon="tabler:chevron-left" width="40" height="40" />
       </button>
     </div>
-    <div class="code">{code}</div>
+    <div class="code">
+      {#if codeStatus === 'error'}
+        <div class="error-message">
+          图片转换错误，请重新上传
+        </div>
+      {:else}
+        <div>{code}</div>
+      {/if}
+    </div>
   </div>
   <div class="image-container">
     <div class:hidden={hideStyleSelector()} class="style-selector-container">
@@ -174,12 +182,6 @@
   }
 
   .code-info .code {
-    color: #666;
-  }
-  
-  .loading {
-    padding: 20px;
-    text-align: center;
     color: #666;
   }
 
@@ -251,5 +253,9 @@
     position: absolute;
     top: 0;
     left: 0;
+  }
+
+  .error-message {
+    color: #990000;
   }
 </style>

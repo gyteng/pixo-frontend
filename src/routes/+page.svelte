@@ -5,7 +5,6 @@
   import History from '$lib/components/History.svelte';
   
   let redeemCode = '';
-  let message = '';
   let loading = false;
   let isMobile = false;
 
@@ -49,12 +48,9 @@
   }
   
   async function handleRedeem() {
-    if (!redeemCode) {
-      message = '请输入兑换码';
+    if (!redeemCode || !redeemCode.trim()) {
       return;
     }
-    
-    message = `正在处理兑换码: ${redeemCode}`;
     loading = true;
     try {
       const params = new URLSearchParams();
@@ -67,13 +63,12 @@
       });
       const result = await response.json();
       if (result.success) {
-        message = '兑换成功！';
         goto(`/img/${redeemCode.trim()}`);
       } else {
-        message = `兑换失败: ${result.error}`;
+        redeemCode = '';
       }
     } catch (error) {
-      message = `兑换失败: ${error}`;
+      redeemCode = '';
     } finally {
       loading = false;
     }
