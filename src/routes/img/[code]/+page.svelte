@@ -25,6 +25,7 @@
   const code = $page.params.code;
 
   let selectedStyle = null;
+  $: loadingBackground = uploadSuccess || codeStatus === 'uploaded';
   
   async function checkCodeStatus() {
     try {
@@ -52,7 +53,6 @@
       }
 
       if (codeStatus === 'error') {
-        selectedFile = null;
         previewUrl = null;
       }
       if (codeStatus === 'finished') {
@@ -155,7 +155,7 @@
     {/if}
 
     {#if uploading || (previewUrl && codeStatus !== 'finished') || codeStatus === 'uploaded'}
-      <Loading />
+      <Loading bind:loadingBackground={loadingBackground}/>
     {/if}
   </div>
 </div>

@@ -1,13 +1,25 @@
 <script>
   import Icon from '@iconify/svelte';
+  export let loadingBackground = false;
 </script>
 
 <div class="loading overlay">
-  <Icon icon="svg-spinners:180-ring-with-bg" width="48" height="48" />
+  <div class="icon-container">
+    <div class="icon-wrapper" class:hidden={!loadingBackground}>
+      <Icon icon="svg-spinners:180-ring-with-bg" width="48" height="48" />
+    </div>
+    <div class="icon-wrapper" class:hidden={loadingBackground}>
+      <Icon icon="svg-spinners:180-ring" width="48" height="48" />
+    </div>
+  </div>
 </div>
 
 <style>
-  
+  .hidden {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
   .loading {
     padding: 20px;
     text-align: center;
@@ -27,5 +39,19 @@
     justify-content: center;
     align-items: center;
     border-radius: 20px;
+  }
+
+  .icon-container {
+    position: relative;
+    width: 48px;
+    height: 48px;
+  }
+
+  .icon-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 </style>
