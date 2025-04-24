@@ -49,7 +49,6 @@
 <style>
   .history-container {
     width: 100%;
-    /* padding: 1rem; */
     margin: 15px;
     max-width: 400px;
     display: flex;

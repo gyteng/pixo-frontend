@@ -20,7 +20,6 @@
    */
   let codeStatus = 'loading';
 
-  let statusMessage = '';
   let pollingInterval;
   const code = $page.params.code;
 
@@ -40,17 +39,11 @@
       const result = await response.json();
       
       if (!response.ok) {
-        statusMessage = result.error || '获取状态失败';
+        goto('/');
         return;
       }
       
       codeStatus = result.codeStatus;
-      
-      if (codeStatus === 'created') {
-        statusMessage = '可以上传图片';
-      } else {
-        statusMessage = '此兑换码当前无法上传图片';
-      }
 
       if (codeStatus === 'error') {
         previewUrl = null;
@@ -62,7 +55,6 @@
       }
     } catch (error) {
       console.error('获取兑换码状态出错:', error);
-      statusMessage = '检查状态时出错，请稍后再试';
     }
   }
   
