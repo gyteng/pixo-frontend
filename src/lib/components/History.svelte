@@ -3,13 +3,42 @@
   import { ls } from '$lib/localStorage'
   
   let historyItems = [];
-  const maxItems = 6;
-  const placeholders = Array(maxItems).fill(null);
+  let windowWidth;
+  let windowHeight;
+  $: maxItems = getMaxItemsByWindowSize(windowWidth, windowHeight);
+  $: placeholders = Array(maxItems).fill(null);
+
+  function getMaxItemsByWindowSize(width, height) {
+    if (!width || !height) return 6;
+    let result = 1;
+    if (width >= 960) {
+      result = result * 4;
+    } else {
+      result = result * 3;
+    }
+    if (height >= 840) {
+      result = result * 3;
+    } else {
+      result = result * 2;
+    }
+    return result;
+  }
 
   const history = ls('history_v0', []);
   
   onMount(() => {
     historyItems = $history;
+
+    windowWidth = window.innerWidth;
+    windowHeight = window.innerHeight;
+    const handleResize = () => {
+      windowWidth = window.innerWidth;
+      windowHeight = window.innerHeight;
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   });
   
   function handleImageError(event) {
@@ -61,12 +90,24 @@
       max-width: 280px;
     }
   }
+
+  @media (min-width: 960px) {
+    .history-container {
+      max-width: 480px;
+    }
+  }
   
   .history-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 0.5rem;
     margin-top: 1rem;
+  }
+
+  @media (min-width: 960px) {
+    .history-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
   
   .history-item {

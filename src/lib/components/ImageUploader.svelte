@@ -188,7 +188,7 @@
   function addHistory(code) {
     history.update(currentHistory => {
       const filteredHistory = currentHistory.filter(item => item !== code);
-      return [code, ...filteredHistory].slice(0, 9);
+      return [code, ...filteredHistory].slice(0, 15);
     });
   }
 
