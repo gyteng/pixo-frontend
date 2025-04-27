@@ -1,42 +1,43 @@
 <script>
   import { onMount } from 'svelte';
 
-  // 组件属性，继承所有 img 标签的原生属性
   export let src;
   export let alt = '';
   export let width = undefined;
   export let height = undefined;
-  export let fallbackSrc = '/images/image-fallback.svg'; // 默认的失败图标路径
-  export let maxRetries = 3; // 最大重试次数
-  export let retryDelay = 2000; // 重试间隔时间(毫秒)
+  export let maxRetries = 5;
+  export let retryDelay = 5000;
 
+  // ai_generated / user_uploaded
+  let currentStatus = 'ai_generated';
   let currentSrc = src;
   let retryCount = 0;
   let loading = true;
   let failed = false;
   let imgElement;
 
-  // 图片加载失败时的处理函数
-  function handleError() {
+  function handleError(event) {
     if (retryCount < maxRetries) {
       retryCount++;
       loading = true;
       failed = false;
+
+      if (currentStatus === 'ai_generated') {
+        event.target.src = event.target.src.replace('ai_generated', 'user_uploaded');
+        currentStatus = 'user_uploaded';
+        return;
+      }
       
-      // 延迟重试
       setTimeout(() => {
-        // 添加时间戳参数避免浏览器缓存
         const timestamp = new Date().getTime();
         currentSrc = `${src}${src.includes('?') ? '&' : '?'}_retry=${timestamp}`;
       }, retryDelay);
     } else {
-      // 达到最大重试次数，显示失败图标
       loading = false;
       failed = true;
     }
   }
 
-  // 图片加载成功时的处理函数
   function handleLoad() {
     loading = false;
     failed = false;
@@ -44,7 +45,6 @@
 
   onMount(() => {
     if (imgElement) {
-      // 如果图片已经有错误（可能在组件挂载前就加载失败了）
       if (imgElement.complete && imgElement.naturalHeight === 0) {
         handleError();
       }
@@ -52,33 +52,61 @@
   });
 </script>
 
-{#if failed}
-  <!-- 显示失败图标 -->
-  <img
-    src={fallbackSrc}
-    {alt}
-    class="fallback-image {$$props.class || ''}"
-    style={$$props.style || ''}
-    {width}
-    {height}
-  />
-{:else}
-  <!-- 显示实际图片 -->
+<div class="history-image" style="{$$props.style || ''}">
+  {#if loading || failed}
+  <div class="loading-placeholder" style="{width ? `width:${width}px;` : ''}{height ? `height:${height}px;` : ''}">
+  </div>
+  {/if}
   <img
     bind:this={imgElement}
     src={currentSrc}
     {alt}
     on:error={handleError}
     on:load={handleLoad}
+    class:hidden={loading || failed}
     class="{$$props.class || ''} {loading ? 'loading' : ''}"
     style="{$$props.style || ''}"
     {width}
     {height}
     {...$$restProps}
   />
-{/if}
+</div>
+
 
 <style>
+  .hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+  }
+
+  .history-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    transition: opacity 0.2s ease-in;
+  }
+
+  .loading-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F9F9F9;
+    color: #aaa;
+  }
+
   .loading {
     opacity: 0.7;
   }

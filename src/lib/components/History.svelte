@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { ls } from '$lib/localStorage'
+  import HistoryImage from './HistoryImage.svelte';
   
   let historyItems = [];
   let windowWidth;
@@ -40,12 +41,6 @@
       window.removeEventListener('resize', handleResize);
     };
   });
-  
-  function handleImageError(event) {
-    if (event.target.src.includes('ai_generated')) {
-      event.target.src = event.target.src.replace('ai_generated', 'user_uploaded');
-    }
-  }
 </script>
 
 <div class="history-container">
@@ -64,11 +59,12 @@
         tabindex="0"
         role="button">
         {#if historyItems[index]}
-          <img 
-            src="/api/image?usage=ai_generated&code={historyItems[index]}" 
-            alt="历史记录图片 {index + 1}" 
-            on:error={handleImageError}
-          />
+          <HistoryImage
+            src={`/api/image?usage=ai_generated&code=${historyItems[index]}`}
+            alt="历史记录图片 {index + 1}"
+            width="100%"
+            height="100%"
+          ></HistoryImage>
         {/if}
       </div>
     {/each}
@@ -123,14 +119,11 @@
     cursor: default;
   }
   
-  .history-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .history-item {
     transition: transform 0.2s ease-in-out;
   }
-  
-  .history-item:hover img {
+
+  .history-item:hover {
     transform: scale(1.05);
   }
 </style>
