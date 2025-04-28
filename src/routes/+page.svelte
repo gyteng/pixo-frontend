@@ -96,7 +96,6 @@
         type="text" 
         tabindex="0"
         bind:value={redeemCode}
-        use:autofocus
         on:keypress={handleKeyPress}
         placeholder="请输入兑换码"
       />

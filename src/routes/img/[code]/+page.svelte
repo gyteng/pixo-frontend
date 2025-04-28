@@ -6,6 +6,7 @@
   import ImageUploader from '$lib/components/ImageUploader.svelte';
   import StyleSelector from '$lib/components/StyleSelector.svelte';
   import Loading from '$lib/components/Loading.svelte';
+  import ThumbnailImage from '$lib/components/ThumbnailImage.svelte';
   
   let previewUrl = null;
   let uploading = false;
@@ -128,6 +129,9 @@
     <div class:hidden={hideStyleSelector()} class="style-selector-container">
       <StyleSelector bind:selectedStyle={selectedStyle} />
     </div>
+    {#if codeStatus === 'finished'}
+      <ThumbnailImage imageUrl={"/api/image?usage=user_uploaded&code=" + code} altText="原始图片" />
+    {/if}
     {#if codeStatus === 'loading'}
       <div></div>
     {:else if codeStatus === 'created' || codeStatus === 'error' || (codeStatus === 'uploaded' && previewUrl)}
