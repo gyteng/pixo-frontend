@@ -10,6 +10,7 @@
   let previewUrl = null;
   let uploading = false;
   let uploadSuccess = false;
+  let loadingText = '...';
 
   /**
    * loading
@@ -25,6 +26,7 @@
 
   let selectedStyle = null;
   $: loadingBackground = uploadSuccess || codeStatus === 'uploaded';
+  $: loadingText = uploading ? '上传图片' : '正在转换图片';
   
   async function checkCodeStatus() {
     try {
@@ -147,7 +149,7 @@
     {/if}
 
     {#if uploading || (previewUrl && codeStatus !== 'finished') || codeStatus === 'uploaded'}
-      <Loading bind:loadingBackground={loadingBackground}/>
+      <Loading bind:loadingBackground={loadingBackground} bind:loadingText={loadingText}/>
     {/if}
   </div>
 </div>

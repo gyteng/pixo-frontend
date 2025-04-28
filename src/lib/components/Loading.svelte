@@ -1,6 +1,8 @@
 <script>
   import Icon from '@iconify/svelte';
   export let loadingBackground = false;
+
+  export let loadingText = '...';
 </script>
 
 <div class="loading overlay">
@@ -11,6 +13,9 @@
     <div class="icon-wrapper" class:hidden={loadingBackground}>
       <Icon icon="svg-spinners:180-ring" width="48" height="48" />
     </div>
+  </div>
+  <div>
+    <p class="loading-text">{loadingText}</p>
   </div>
 </div>
 
