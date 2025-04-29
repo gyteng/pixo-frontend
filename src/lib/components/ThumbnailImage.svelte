@@ -1,4 +1,6 @@
 <script>
+  import Image from '$lib/components/Image.svelte';
+
   export let imageUrl;
   export let altText = "Original image";
   export let rotation = "-7deg";
@@ -7,7 +9,7 @@
 <div class="image-container">
   <div class="image-wrapper" style="transform: rotate({rotation})">
     {#if imageUrl}
-      <img src={imageUrl} alt={altText} />
+      <Image src={imageUrl} alt={altText} />
     {/if}
   </div>
 </div>

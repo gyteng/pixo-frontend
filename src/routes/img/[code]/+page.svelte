@@ -7,6 +7,7 @@
   import StyleSelector from '$lib/components/StyleSelector.svelte';
   import Loading from '$lib/components/Loading.svelte';
   import ThumbnailImage from '$lib/components/ThumbnailImage.svelte';
+  import Image from '$lib/components/Image.svelte';
   
   let previewUrl = null;
   let uploading = false;
@@ -147,11 +148,14 @@
         on:preview={handlePreview}
       />
     {:else if codeStatus === 'finished'}
-      <img src="/api/image?usage=ai_generated&code={code}" alt="ai_generated" class="result-image"/>
+      <div class="result-image">
+        <Image src="/api/image?usage=ai_generated&code={code}" alt="ai_generated" fit="contain"/>
+      </div>
     {:else}
-      <img src="/api/image?usage=user_uploaded&code={code}" alt="user_uploaded" class="result-image"/>
+      <div class="result-image">
+        <Image src="/api/image?usage=user_uploaded&code={code}" alt="user_uploaded" fit="contain"/>
+      </div>
     {/if}
-
     {#if uploading || (previewUrl && codeStatus !== 'finished') || codeStatus === 'uploaded'}
       <Loading bind:loadingBackground={loadingBackground} bind:loadingText={loadingText}/>
     {/if}

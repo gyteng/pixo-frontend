@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { ls } from '$lib/localStorage'
-  import HistoryImage from './HistoryImage.svelte';
+  import HistoryImage from '$lib/components/HistoryImage.svelte';
   
   let historyItems = [];
   let windowWidth;
