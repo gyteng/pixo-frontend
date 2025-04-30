@@ -7,6 +7,9 @@
   let redeemCode = '';
   let loading = false;
   let isMobile = false;
+  let hasFreeCode = true;
+
+  $: placeholder = hasFreeCode ? '开始转换' : '请输入兑换码';
 
   function autofocus(node) {
     if (!isMobile) {
@@ -44,15 +47,17 @@
       if (result.success && !redeemCode) {
         redeemCode = result.code;
       }
-    } catch (error) {}
+    } catch (error) {
+      throw new Error('Failed to fetch free code');
+    }
   }
   
   async function handleRedeem() {
-    if (!redeemCode || !redeemCode.trim()) {
-      return;
-    }
-    loading = true;
     try {
+      loading = true;
+      if (hasFreeCode || !redeemCode || !redeemCode.trim()) {
+        await getFreeCode();
+      }
       const params = new URLSearchParams();
       params.append('code', redeemCode.trim());
       const response = await fetch(`/api/code/status?${params}`, {
@@ -70,12 +75,12 @@
     } catch (error) {
       redeemCode = '';
     } finally {
+      hasFreeCode = false;
       loading = false;
     }
   }
 
   onMount(() => {
-    getFreeCode();
     isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   });
 </script>
@@ -91,21 +96,34 @@
 <div class="container">
   <div class="title">Pixo</div>
   <div class="redeem-container">
-    <div class="input-group">
-      <input 
-        type="text" 
-        tabindex="0"
-        bind:value={redeemCode}
-        on:keypress={handleKeyPress}
-        placeholder="请输入兑换码"
-      />
-      <button on:click={handleRedeem}>
-        {#if loading}
-          <Icon color="#333" icon="svg-spinners:3-dots-fade" width="40" height="40" />
+    <div class="redeem-border"
+         class:redeem-border-free-code={hasFreeCode}
+         on:click={hasFreeCode ? handleRedeem : null}
+         on:keydown={hasFreeCode ? handleRedeem : null}
+         role="button"
+         tabindex={hasFreeCode ? "0" : undefined}
+    >
+      <div class="input-group">
+        {#if hasFreeCode}
+          <div>开始转换</div>
         {:else}
-          <Icon color="#333" icon="tabler:chevron-right" width="40" height="40" />
+          <input
+            type="text" 
+            tabindex="0"
+            bind:value={redeemCode}
+            on:keypress={handleKeyPress}
+            placeholder={placeholder}
+            disabled={hasFreeCode}
+          />
         {/if}
-      </button>
+        <button on:click={handleRedeem}>
+          {#if loading}
+            <Icon color="#333" icon="svg-spinners:3-dots-fade" width="40" height="40" />
+          {:else}
+            <Icon color="#333" icon="tabler:chevron-right" width="40" height="40" />
+          {/if}
+        </button>
+      </div>
     </div>
   </div>
   <div class="history-container">
@@ -118,7 +136,7 @@
     margin: 0;
     box-sizing: border-box;
     position: relative;
-    overflow-y: hidden;
+    overflow: hidden;
   }
 
   .github-icon {
@@ -147,28 +165,60 @@
   .redeem-container {
     display: flex;
     flex-direction: column;
-    margin-top: 2rem;
-    padding: 1rem;
-    border: 1px solid #ddd;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 120px;
+    margin: 10px 0 20px 0;
+  }
+
+  .redeem-border {
     border-radius: 20px;
-    max-width: 500px;
-    margin: 0 0 30px 0;
+    border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
+    max-width: 360px;
+    height: 105px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .redeem-border-free-code {
+    width: 150px;
+    height: 65px;
+    border-radius: 30px;
+    cursor: pointer;
   }
   
   .input-group {
     display: flex;
     margin: 1rem 0;
+    justify-content: center;
+    align-items: center;
   }
   
-  .input-group input {
+  .input-group > input {
     flex: 1;
     font-size: 1.2em;
     padding: 0.5rem;
     border: 0px;
     outline: none;
     border-radius: 4px 0 0 4px;
+    width: 100%;
     color: #666;
+  }
+
+  .input-group > div {
+    font-size: 1.2em;
+    color: #4a4a4a;
+    padding: 0 0 2px 10px;
+  }
+
+  .input-group > input:disabled {
+    background-color: #FFF;
+    cursor: pointer;
   }
 
   .input-group input::placeholder {
