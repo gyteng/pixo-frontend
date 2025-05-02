@@ -9,8 +9,6 @@
   let isMobile = false;
   let hasFreeCode = true;
 
-  $: placeholder = hasFreeCode ? '开始转换' : '请输入兑换码';
-
   function autofocus(node) {
     if (!isMobile) {
       setTimeout(() => {
@@ -112,7 +110,7 @@
             tabindex="0"
             bind:value={redeemCode}
             on:keypress={handleKeyPress}
-            placeholder={placeholder}
+            placeholder="请输入兑换码"
             disabled={hasFreeCode}
           />
         {/if}

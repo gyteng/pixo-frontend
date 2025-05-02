@@ -8,11 +8,14 @@
   import Loading from '$lib/components/Loading.svelte';
   import ThumbnailImage from '$lib/components/ThumbnailImage.svelte';
   import Image from '$lib/components/Image.svelte';
-  
+  import { ls } from '$lib/localStorage'
+
   let previewUrl = null;
   let uploading = false;
   let uploadSuccess = false;
   let loadingText = '...';
+  let isWechat = false;
+  const history = ls('history_v0', []);
 
   /**
    * loading
@@ -29,6 +32,7 @@
   let selectedStyle = null;
   $: loadingBackground = uploadSuccess || codeStatus === 'uploaded';
   $: loadingText = uploading ? '上传图片' : '正在转换图片';
+  $: qrText = isWechat ? `${window.location.origin}/img/${code}` : '';
   
   async function checkCodeStatus() {
     try {
@@ -56,6 +60,7 @@
         if (pollingInterval) {
           clearInterval(pollingInterval);
         }
+        addHistory(code);
       }
     } catch (error) {
       console.error('获取兑换码状态出错:', error);
@@ -75,9 +80,21 @@
 
   }
 
+  function addHistory(code, toFirst = false) {
+    const exists = $history.includes(code);
+    if (exists && !toFirst) {
+      return;
+    }
+    history.update(currentHistory => {
+      const filteredHistory = currentHistory.filter(item => item !== code);
+      return [code, ...filteredHistory].slice(0, 15);
+    });
+  }
+
   function handleUploadSuccess() {
     uploadSuccess = true;
     uploading = false;
+    addHistory(code, true);
   }
 
   function hideStyleSelector() {
@@ -95,6 +112,14 @@
   
   onMount(() => {
     startPolling();
+
+    const uaHasWechat = /MicroMessenger/i.test(navigator.userAgent);
+    const hasWeixinJSBridge = typeof window !== 'undefined' && 
+                              typeof window.WeixinJSBridge !== 'undefined';
+    const hasWxEnvironment = typeof window !== 'undefined' && 
+                             window.__wxjs_environment === 'miniprogram';
+    const hasWxObject = typeof window !== 'undefined' && typeof window.wx !== 'undefined';
+    isWechat = uaHasWechat || hasWeixinJSBridge || hasWxEnvironment || hasWxObject;
     return () => {
       if (pollingInterval) {
         clearInterval(pollingInterval);
@@ -149,7 +174,8 @@
       />
     {:else if codeStatus === 'finished'}
       <div class="result-image">
-        <Image src="/api/image?usage=ai_generated&code={code}" alt="ai_generated" fit="contain"/>
+        <Image src="/api/image?usage=ai_generated&code={code}" alt="ai_generated" fit="contain" qrText={qrText}/>
+        />
       </div>
     {:else}
       <div class="result-image">

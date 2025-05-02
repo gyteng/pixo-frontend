@@ -27,6 +27,7 @@
 		"wrangler": "^4.10.0"
 	},
 	"dependencies": {
-		"heic2any": "^0.0.4"
+		"heic2any": "^0.0.4",
+		"qrcode": "^1.5.4"
 	}
 }

@@ -1,7 +1,6 @@
 <script>
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import Icon from '@iconify/svelte';
-  import { ls } from '$lib/localStorage'
 
   let heic2any = null;
 
@@ -10,7 +9,6 @@
   export let code = '';
   export let selectedStyle = null;
   
-  const history = ls('history_v0', []);
   let selectedFile = null;
   let errorMessage = '';
   let isBrowser = false;
@@ -185,13 +183,6 @@
     }
   }
 
-  function addHistory(code) {
-    history.update(currentHistory => {
-      const filteredHistory = currentHistory.filter(item => item !== code);
-      return [code, ...filteredHistory].slice(0, 15);
-    });
-  }
-
   async function handlePaste(event) {
     const items = (event.clipboardData || window.clipboardData).items;
     for (let i = 0; i < items.length; i++) {
@@ -235,7 +226,6 @@
         const errorData = await response.json();
         throw new Error(errorData.message || '上传失败');
       }
-      addHistory(code);
       dispatch('uploadsuccess');
     } catch (error) {
       errorMessage = `上传失败: ${error.message}`;
