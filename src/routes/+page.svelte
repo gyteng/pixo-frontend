@@ -93,6 +93,7 @@
 </div>
 <div class="container">
   <div class="title">Pixo</div>
+  <div class="sub-title">基于 GPT-4o 的图片风格转换器</div>
   <div class="redeem-container">
     <div class="redeem-border"
          class:redeem-border-free-code={hasFreeCode}
@@ -158,6 +159,13 @@
     font-size: 2rem;
     margin-bottom: 1rem;
     color: #333;
+  }
+
+  .container .sub-title {
+    user-select: none;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #666;
   }
 
   .redeem-container {

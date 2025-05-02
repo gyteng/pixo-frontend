@@ -17,7 +17,7 @@
     } else {
       result = result * 3;
     }
-    if (height >= 840) {
+    if (height >= 750) {
       result = result * 3;
     } else {
       result = result * 2;
