@@ -189,6 +189,10 @@
     border-radius: 30px;
     cursor: pointer;
   }
+
+  .redeem-border-free-code:hover {
+    background-color: #f3f3f3;
+  }
   
   .input-group {
     display: flex;
@@ -239,6 +243,14 @@
   
   button:hover {
     background-color: #EEE;
+  }
+
+  .redeem-border-free-code button {
+    background-color: unset;
+  }
+
+  .redeem-border-free-code button:hover {
+    background-color: unset;
   }
 
   .history-container {
