@@ -76,10 +76,6 @@
     goto('/');
   }
 
-  function handlePreview() {
-
-  }
-
   function addHistory(code, toFirst = false) {
     const exists = $history.includes(code);
     if (exists && !toFirst) {
@@ -95,6 +91,11 @@
     uploadSuccess = true;
     uploading = false;
     addHistory(code, true);
+  }
+
+  function handleUploadError() {
+    uploadSuccess = false;
+    uploading = false;
   }
 
   function hideStyleSelector() {
@@ -170,7 +171,7 @@
         on:uploadstart={() => uploading = true}
         on:uploadend={() => uploading = false}
         on:uploadsuccess={handleUploadSuccess}
-        on:preview={handlePreview}
+        on:uploaderror={handleUploadError}
       />
     {:else if codeStatus === 'finished'}
       <div class="result-image">

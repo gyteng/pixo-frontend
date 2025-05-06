@@ -9,14 +9,6 @@
   let isMobile = false;
   let hasFreeCode = true;
 
-  function autofocus(node) {
-    if (!isMobile) {
-      setTimeout(() => {
-        node.focus();
-      }, 0);
-    }
-  }
-
   function toGithub() {
     window.location = 'https://github.com/gyteng/pixo-frontend';
   }

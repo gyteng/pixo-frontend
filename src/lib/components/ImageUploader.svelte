@@ -149,7 +149,6 @@
     if (file) {
       selectedFile = file;
       previewUrl = await createPreviewUrl(file);
-      dispatch('preview', { url: previewUrl });
     }
     if (selectedFile) {
       uploadImage();
@@ -174,7 +173,6 @@
     if (files && files.length > 0 && files[0].type.startsWith('image/')) {
       selectedFile = files[0];
       previewUrl = await createPreviewUrl(selectedFile);
-      dispatch('preview', { url: previewUrl });
     } else {
       errorMessage = '请拖放图片文件';
     }
@@ -190,7 +188,6 @@
         const file = items[i].getAsFile();
         selectedFile = file;
         previewUrl = await createPreviewUrl(file);
-        dispatch('preview', { url: previewUrl });
         break;
       }
     }
@@ -229,6 +226,7 @@
       dispatch('uploadsuccess');
     } catch (error) {
       errorMessage = `上传失败: ${error.message}`;
+      previewUrl = null;
       dispatch('uploaderror', { error: errorMessage });
     } finally {
       uploading = false;
