@@ -168,7 +168,6 @@
     padding: 15px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     cursor: pointer;
     user-select: none;
     transition: background-color 0.2s;
