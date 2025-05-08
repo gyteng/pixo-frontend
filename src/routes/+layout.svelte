@@ -1,4 +1,5 @@
 <script>
+  import '$lib/global.css';
   import { addCollection } from '@iconify/svelte';
   import svgSpinners from '@iconify/json/json/svg-spinners.json';
   import lucideIcons from '@iconify/json/json/lucide.json';
@@ -12,12 +13,3 @@
 </script>
 
 <slot></slot>
-
-<style>
-  :global(body) {
-    margin: 0;
-    box-sizing: border-box;
-    position: relative;
-    overflow: hidden;
-  }
-</style>
