@@ -5,6 +5,7 @@ export default defineConfig({
 	plugins: [sveltekit()],
 	server: {
 		host: '0.0.0.0',
+		port: 15179,
 		proxy: {
 			'/api': {
 				target: 'https://pixo.gyteng.com',
