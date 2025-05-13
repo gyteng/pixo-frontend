@@ -60,7 +60,10 @@
     if (statusTimer) clearTimeout(statusTimer);
     statusTimer = setInterval(async () => {
       const imageSrc = currentSrc.replace('user_uploaded', 'ai_generated');
-      await fetch(imageSrc);
+      const response = await fetch(imageSrc);
+      if (!response.ok) {
+        return;
+      }
       clearTimeout(statusTimer);
       statusTimer = null;
 
