@@ -15,6 +15,7 @@
   let loading = true;
   let failed = false;
   let imgElement;
+  let statusTimer;
 
   function handleError(event) {
     if (retryCount < maxRetries) {
@@ -49,7 +50,29 @@
         handleError();
       }
     }
+
+    return () => {
+      if (statusTimer) clearTimeout(statusTimer);
+    };
   });
+
+  $: if (currentStatus === 'user_uploaded') {
+    if (statusTimer) clearTimeout(statusTimer);
+    statusTimer = setInterval(async () => {
+      const imageSrc = currentSrc.replace('user_uploaded', 'ai_generated');
+      await fetch(imageSrc);
+      clearTimeout(statusTimer);
+      statusTimer = null;
+
+      loading = true;
+      setTimeout(() => {
+        currentSrc = imageSrc;
+        if (imgElement) {
+          imgElement.src = imageSrc;
+        }
+      }, 10);
+    }, 60 * 1000);
+  }
 </script>
 
 <div class="history-image" style="{$$props.style || ''}">

@@ -39,7 +39,7 @@
   }
   
   .image-wrapper:hover {
-    transform: rotate(-3deg) scale(1.55) !important; /* 放大15%并回正 */
+    transform: rotate(-3deg) scale(1.95) !important; /* 放大15%并回正 */
     box-shadow: 0 5px 10px rgba(0,0,0,0.2); /* 增强阴影效果 */
     z-index: 20; /* 确保悬停时在最上层 */
   }
