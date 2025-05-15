@@ -3,10 +3,12 @@
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
   import History from '$lib/components/History.svelte';
+  import Sample from '$lib/components/Sample.svelte';
+  import ImageToggle from '$lib/components/ImageToggle.svelte';
+  import { ls } from '$lib/localStorage'
   
   let redeemCode = '';
   let loading = false;
-  let isMobile = false;
   let hasFreeCode = true;
 
   function toGithub() {
@@ -70,8 +72,31 @@
     }
   }
 
+  async function fetchSamples() {
+    try {
+      const response = await fetch('/api/sample');
+      if (!response.ok) {
+        throw new Error('网络错误');
+      }
+      const data = await response.json();
+      sample.update(current => {
+        return data?.value || [];
+      });
+      samples = $sample.map(m => m.code);
+    } catch (err) {
+      console.error('获取示例列表失败:', err);
+    }
+  }
+
+  let showHistory = true;
+  function handleImageToggle(event) {
+    showHistory = event.detail.showHistory;
+  }
+  const sample = ls('sample_v0', []);
+  let samples = [];
+
   onMount(() => {
-    isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    fetchSamples();
   });
 </script>
 
@@ -117,8 +142,18 @@
       </div>
     </div>
   </div>
+
+  <ImageToggle
+    bind:showHistory={showHistory} 
+    on:toggle={handleImageToggle} 
+  />
+
   <div class="history-container">
-    <History />
+    {#if showHistory}
+      <History />
+    {:else}
+      <Sample bind:historyItems={samples}/>
+    {/if}
   </div>
 </div>
 

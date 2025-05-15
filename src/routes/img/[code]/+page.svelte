@@ -16,6 +16,7 @@
   let loadingText = '...';
   let isWechat = false;
   const history = ls('history_v0', []);
+  const sample = ls('sample_v0', []);
 
   /**
    * loading
@@ -78,6 +79,10 @@
 
   function addHistory(code, toFirst = false) {
     const exists = $history.includes(code);
+    const isSample = $sample.some(item => item.code === code);
+    if (isSample) {
+      return;
+    }
     if (exists && !toFirst) {
       return;
     }
@@ -176,7 +181,6 @@
     {:else if codeStatus === 'finished'}
       <div class="result-image">
         <Image src="/api/image?usage=ai_generated&code={code}" alt="ai_generated" fit="contain" qrText={qrText}/>
-        />
       </div>
     {:else}
       <div class="result-image">
@@ -222,6 +226,7 @@
     gap: 20px;
     margin-top: 20px;
     justify-content: center;
+    align-items: center;
     border: 1px solid #ddd;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

@@ -153,11 +153,9 @@
 <style>
   .style-selector {
     margin: 20px;
-    /* border: 1px solid #ddd; */
     border-radius: 12px;
     background-color: #fff;
     overflow: hidden;
-    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
   }
 
   .style-selector-border {
