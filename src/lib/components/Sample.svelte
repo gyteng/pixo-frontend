@@ -60,11 +60,13 @@
         role="button">
         {#if historyItems[index]}
           <HistoryImage
-            src={`/api/image?usage=ai_generated&code=${historyItems[index]}`}
+            src={`/api/image?usage=ai_generated&code=${historyItems[index].code}`}
             alt="历史记录图片 {index + 1}"
             width="100%"
             height="100%"
           ></HistoryImage>
+          <div class="history-item-name">{historyItems[index].name}</div>
+          
         {/if}
       </div>
     {/each}
@@ -107,11 +109,22 @@
   }
   
   .history-item {
+    position: relative;
     aspect-ratio: 1/1;
     overflow: hidden;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
+  }
+
+  .history-item-name {
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
+    background: rgba(0, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 2px 5px;
+    border-radius: 7px;
   }
 
   .history-item.empty-item {

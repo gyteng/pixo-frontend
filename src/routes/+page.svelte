@@ -82,7 +82,7 @@
       sample.update(current => {
         return data?.value || [];
       });
-      samples = $sample.map(m => m.code);
+      samples = $sample;
     } catch (err) {
       console.error('获取示例列表失败:', err);
     }
