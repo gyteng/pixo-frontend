@@ -48,11 +48,11 @@
     {#each placeholders as _, index}
       <div class="history-item {!historyItems[index] ? 'empty-item' : ''}"
         on:click={() => {
-          window.location.href = `/img/${historyItems[index]}`;
+          window.location.href = `/img/${historyItems[index].code}`;
         }}
         on:keydown={(e) => {
           if (e.key === 'Enter') {
-            window.location.href = `/img/${historyItems[index]}`;
+            window.location.href = `/img/${historyItems[index].code}`;
           }
         }}
         aria-label="点击查看历史记录图片"
