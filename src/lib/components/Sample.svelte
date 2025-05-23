@@ -66,7 +66,6 @@
             height="100%"
           ></HistoryImage>
           <div class="history-item-name">{historyItems[index].name}</div>
-          
         {/if}
       </div>
     {/each}
@@ -125,6 +124,7 @@
     color: rgba(255, 255, 255, 0.8);
     padding: 2px 5px;
     border-radius: 7px;
+    font-size: 0.8em;
   }
 
   .history-item.empty-item {
