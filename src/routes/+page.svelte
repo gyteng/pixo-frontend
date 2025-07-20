@@ -6,6 +6,7 @@
   import Sample from '$lib/components/Sample.svelte';
   import ImageToggle from '$lib/components/ImageToggle.svelte';
   import { ls } from '$lib/localStorage'
+  import { buildInfo } from '$lib/build-info.js';
   
   let redeemCode = '';
   let loading = false;
@@ -97,6 +98,7 @@
 
   onMount(() => {
     fetchSamples();
+    console.log('Deploy time:', buildInfo.deployTimeFormatted);
   });
 </script>
 
@@ -155,6 +157,10 @@
       <Sample bind:historyItems={samples}/>
     {/if}
   </div>
+</div>
+
+<div class="version-info">
+  部署时间: {buildInfo.deployTimeFormatted}
 </div>
 
 <style>
@@ -283,5 +289,17 @@
 
   .history-container {
     height: 280px;
+  }
+
+  .version-info {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.8rem;
+    color: #999;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 4px 8px;
+    border-radius: 4px;
+    user-select: none;
   }
 </style>
