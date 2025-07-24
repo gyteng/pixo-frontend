@@ -160,7 +160,7 @@
 </div>
 
 <div class="version-info">
-  部署时间: {buildInfo.deployTimeFormatted}
+  {buildInfo.deployTimeFormatted}
 </div>
 
 <style>
